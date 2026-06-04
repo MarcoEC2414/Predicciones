@@ -92,27 +92,32 @@ Abre [http://localhost:3000](http://localhost:3000).
 
 ---
 
-## 🌐 Despliegue en Render
+## 🌐 Despliegue en Vercel (recomendado)
 
-El repositorio incluye `render.yaml` para desplegar **API + frontend** en un solo servicio.
+Frontend y API NestJS en **un solo proyecto** Vercel (`vercel.json` en la raíz).
 
 1. Repositorio: [https://github.com/MarcoEC2414/Predicciones](https://github.com/MarcoEC2414/Predicciones)
-2. En [Render](https://render.com) → **New** → **Blueprint** → conecta el repo.
-3. Render detectará `render.yaml`, construirá el proyecto y publicará la URL pública.
+2. En [vercel.com](https://vercel.com) → **Add New Project** → importa el repo (sin cambiar el framework; usa `vercel.json`).
+3. Deploy. La app quedará en una URL tipo `https://predicciones.vercel.app` (frontend en `/`, API en `/api`).
 
-Variables opcionales:
+Desde la terminal:
+
+```bash
+npx vercel login
+npx vercel --prod
+```
+
+**Importante (serverless):** el modelo entrenado vive en memoria de la función. Tras un *cold start* hay que volver a subir el CSV y entrenar. En el plan Hobby el timeout máximo es 10 s; el entrenamiento con el CSV de prueba suele caber, pero datasets grandes pueden necesitar Pro (`maxDuration: 60` en `vercel.json`).
+
+Variables opcionales en Vercel:
 
 | Variable | Uso |
 |----------|-----|
-| `FRONTEND_URL` | Orígenes CORS separados por coma si el frontend está en otro dominio |
-| `VITE_API_URL` | Solo si el frontend se compila aparte apuntando al backend |
+| `FRONTEND_URL` | Orígenes CORS extra (previews, dominio custom) |
 
-Alternativa Docker:
+### Alternativa: Render o Docker
 
-```bash
-docker build -t predicciones .
-docker run -p 3000:3000 -e NODE_ENV=production predicciones
-```
+`render.yaml` y `Dockerfile` siguen disponibles para un servidor Node persistente (el modelo no se pierde entre reinicios mientras el proceso siga activo).
 
 ---
 

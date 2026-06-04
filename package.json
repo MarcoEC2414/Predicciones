@@ -3,7 +3,11 @@
   "private": true,
   "scripts": {
     "build": "npm run build --prefix frontend && npm run build --prefix backend && node scripts/copy-frontend.mjs",
+    "build:vercel": "npm run build --prefix frontend && npm run build --prefix backend",
     "start": "npm run start:prod --prefix backend",
     "start:prod": "npm run build && npm run start"
+  },
+  "dependencies": {
+    "@vercel/node": "^5.3.0"
   }
 }
