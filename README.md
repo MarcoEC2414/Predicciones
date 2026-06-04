@@ -1,15 +1,29 @@
-<img width="243" height="150" alt="arquitectura_predictor" src="https://github.com/user-attachments/assets/b389aae8-6a86-447d-8617-2aee0d1d08e8" /># Predicciones - Random Forest Regressor
+<div align="center">
+  <img width="243" height="150" alt="arquitectura_predictor" src="https://github.com/user-attachments/assets/b389aae8-6a86-447d-8617-2aee0d1d08e8" />
+  
+  # 🎯 Predicciones - Random Forest Regressor
+  
+  *Aplicación web full-stack diseñada para predecir el tiempo de entrega de pedidos utilizando Machine Learning en tiempo real.*
+</div>
 
-Este proyecto es una aplicación web full-stack diseñada para predecir el tiempo de entrega de pedidos (`TiempoEntregaHoras`) utilizando un modelo de Machine Learning (Random Forest) entrenado en tiempo real en el backend.
+---
 
-</svg>
+## 📖 Descripción del Proyecto
 
-ading arquitectura_predictor.svg…]()
+Este sistema calcula de manera automatizada el `TiempoEntregaHoras` basándose en un modelo de **Random Forest Regressor** entrenado directamente en el backend mediante procesamiento de archivos planos. Ideal para optimizar la logística y estimación de tiempos de distribución.
 
-## 🛠 Stack Tecnológico
+---
 
-*   **Backend**: NestJS, Node.js, TypeScript, `ml-random-forest` y `papaparse`.
-*   **Frontend**: React, Vite, Tailwind CSS v4.
+## 🛠️ Stack Tecnológico
+
+<div align="center">
+
+| Componente | Tecnologías Utilizadas |
+| :--- | :--- |
+| **Backend** | NestJS • Node.js • TypeScript • `ml-random-forest` • `papaparse` |
+| **Frontend** | React • Vite • Tailwind CSS v4 |
+
+</div>
 
 ---
 
@@ -17,56 +31,43 @@ ading arquitectura_predictor.svg…]()
 
 Sigue estos pasos para levantar el entorno de desarrollo local:
 
-### 1. Backend
+### ⚙️ 1. Backend
 
-1. Entra a la carpeta `backend`:
+1. Navega a la carpeta del servidor:
    ```bash
    cd backend
-   ```
-2. Instala las dependencias:
-   ```bash
-   npm install
-   ```
-3. Inicia el servidor de desarrollo en el puerto `3000`:
-   ```bash
-   npm run start
-   ```
+Instala los paquetes requeridos:
 
-### 2. Frontend
+Bash
+npm install
+Inicia el servidor de desarrollo (correrá en el puerto 3000):
 
-1. Abre otra terminal y entra a la carpeta `frontend`:
-   ```bash
-   cd frontend
-   ```
-2. Instala las dependencias:
-   ```bash
-   npm install
-   ```
-3. Inicia el servidor de desarrollo en el puerto `5173`:
-   ```bash
-   npm run dev
-   ```
+Bash
+npm run start
+💻 2. Frontend
+Abre otra terminal independiente y navega a la interfaz:
 
-Abre tu navegador en [http://localhost:5173](http://localhost:5173).
+Bash
+cd frontend
+Instala las dependencias:
 
----
+Bash
+npm install
+Inicia el servidor de desarrollo de Vite (correrá en el puerto 5173):
 
-## 📊 Dataset de Prueba
+Bash
+npm run dev
+🌐 Una vez levantados ambos servicios, abre tu navegador e ingresa a: http://localhost:5173
 
-Se incluye el archivo `datos_pedido.csv` en la raíz del proyecto para que puedas probar la aplicación de inmediato. Este archivo contiene 50 registros realistas con las siguientes variables:
+📊 Dataset de Prueba
+Para facilitar las pruebas de inmediato, se incluye el archivo datos_pedido.csv en la raíz del proyecto con 50 registros realistas estructurados bajo el siguiente esquema:
 
-*   **Variables de entrada (Features)**:
-    *   `DistanciaKm`
-    *   `CantidadCajas`
-    *   `Peso (Kg)`
-    *   `TipoProducto`
-    *   `TiempoProduccionHoras`
-    *   `Tiempo Embalaje (Horas)`
-    *   `Tiempo Carga (Horas)`
-    *   `Zona`
-    *   `DiaSemana`
-    *   `HoraPedido`
-    *   `ClienteRecurrente`
-    *   `Tipo Vehiculo`
-*   **Variable objetivo (Target)**:
-    *   `TiempoEntregaHoras`
+📥 Variables de Entrada (Features)
+Logística y Carga: DistanciaKm, CantidadCajas, Peso (Kg), Tipo Vehiculo
+
+Tiempos Operativos: TiempoProduccionHoras, Tiempo Embalaje (Horas), Tiempo Carga (Horas)
+
+Contexto del Pedido: TipoProducto, Zona, DiaSemana, HoraPedido, ClienteRecurrente
+
+📤 Variable Objetivo (Target)
+TiempoEntregaHoras (Valor numérico continuo a predecir)
