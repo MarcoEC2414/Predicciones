@@ -7,6 +7,7 @@ frontend/node_modules/
 dist/
 backend/dist/
 backend/public/
+api/nest-dist/
 frontend/dist/
 
 # Logs
@@ -32,3 +33,4 @@ yarn-error.log*
 *.sln
 *.sw?
 .DS_Store
+.vercel

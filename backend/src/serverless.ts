@@ -1,24 +1,30 @@
 import { NestFactory } from '@nestjs/core';
 import { ExpressAdapter, NestExpressApplication } from '@nestjs/platform-express';
-import express from 'express';
-import serverlessExpress from '@vendia/serverless-express';
+import express, { Express } from 'express';
 import { AppModule } from './app.module';
 import { configureApp } from './configure-app';
 
-let cachedHandler: ReturnType<typeof serverlessExpress>;
+let cachedExpressApp: Express;
 
-export async function getServerlessHandler() {
-  if (cachedHandler) {
-    return cachedHandler;
+export async function getExpressApp(): Promise<Express> {
+  if (cachedExpressApp) {
+    return cachedExpressApp;
   }
 
   const expressApp = express();
+  expressApp.use((req, _res, next) => {
+    if (process.env.VERCEL && req.url && !req.url.startsWith('/api')) {
+      req.url = `/api${req.url}`;
+    }
+    next();
+  });
+
   const nestApp = await NestFactory.create<NestExpressApplication>(
     AppModule,
     new ExpressAdapter(expressApp),
   );
   configureApp(nestApp);
   await nestApp.init();
-  cachedHandler = serverlessExpress({ app: expressApp });
-  return cachedHandler;
+  cachedExpressApp = expressApp;
+  return expressApp;
 }

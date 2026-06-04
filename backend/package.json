@@ -28,7 +28,6 @@
     "ml-random-forest": "^2.1.0",
     "multer": "^2.1.1",
     "papaparse": "^5.5.3",
-    "predicciones": "file:..",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1"
   },
