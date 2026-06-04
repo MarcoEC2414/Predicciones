@@ -1,0 +1,9 @@
+{
+  "name": "predicciones",
+  "private": true,
+  "scripts": {
+    "build": "npm run build --prefix frontend && npm run build --prefix backend && node scripts/copy-frontend.mjs",
+    "start": "npm run start:prod --prefix backend",
+    "start:prod": "npm run build && npm run start"
+  }
+}

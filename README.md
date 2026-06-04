@@ -14,6 +14,26 @@ Este sistema calcula de manera automatizada el `TiempoEntregaHoras` basándose e
 
 ---
 
+## 📐 Arquitectura del Sistema
+
+![Arquitectura del Sistema](./arquitectura.png)
+
+### 💻 Frontend (React + Tailwind CSS v4)
+
+- **UploadZone**: Interfaz drag-and-drop para subir el CSV con datos históricos.
+- **DataPreview**: Vista previa de los primeros 10 registros.
+- **PredictForm**: Formulario para las características de un nuevo pedido.
+- **PredictionOutput**: Tiempo estimado con indicador visual (Verde &lt; 24h, Amarillo 24–72h, Rojo &gt; 72h).
+- **api.js**: Cliente HTTP hacia la API REST del backend.
+
+### ⚙️ Backend (NestJS + TypeScript)
+
+- **UploadModule**: Subida de CSV (`POST /api/upload`).
+- **PredictionsModule**: Entrenamiento (`POST /api/predictions/train`) e inferencia (`POST /api/predictions/predict`).
+- **PredictionsService**: Label encoding, Random Forest (100 estimadores) y métricas MAE, RMSE y R².
+
+---
+
 ## 🛠️ Stack Tecnológico
 
 <div align="center">
@@ -29,45 +49,77 @@ Este sistema calcula de manera automatizada el `TiempoEntregaHoras` basándose e
 
 ## 🚀 Instalación y Ejecución
 
-Sigue estos pasos para levantar el entorno de desarrollo local:
-
 ### ⚙️ 1. Backend
 
-1. Navega a la carpeta del servidor:
-   ```bash
-   cd backend
-Instala los paquetes requeridos:
-
-Bash
+```bash
+cd backend
 npm install
-Inicia el servidor de desarrollo (correrá en el puerto 3000):
-
-Bash
 npm run start
-💻 2. Frontend
-Abre otra terminal independiente y navega a la interfaz:
+```
 
-Bash
+El servidor corre en el puerto **3000**.
+
+### 💻 2. Frontend
+
+En otra terminal:
+
+```bash
 cd frontend
-Instala las dependencias:
-
-Bash
 npm install
-Inicia el servidor de desarrollo de Vite (correrá en el puerto 5173):
-
-Bash
 npm run dev
-🌐 Una vez levantados ambos servicios, abre tu navegador e ingresa a: http://localhost:5173
+```
 
-📊 Dataset de Prueba
-Para facilitar las pruebas de inmediato, se incluye el archivo datos_pedido.csv en la raíz del proyecto con 50 registros realistas estructurados bajo el siguiente esquema:
+Abre [http://localhost:5173](http://localhost:5173).
 
-📥 Variables de Entrada (Features)
-Logística y Carga: DistanciaKm, CantidadCajas, Peso (Kg), Tipo Vehiculo
+### 3. Modo producción (local)
 
-Tiempos Operativos: TiempoProduccionHoras, Tiempo Embalaje (Horas), Tiempo Carga (Horas)
+Un solo servidor sirve la API y el frontend compilado:
 
-Contexto del Pedido: TipoProducto, Zona, DiaSemana, HoraPedido, ClienteRecurrente
+```bash
+npm install --prefix frontend
+npm install --prefix backend
+npm run build
+```
 
-📤 Variable Objetivo (Target)
-TiempoEntregaHoras (Valor numérico continuo a predecir)
+En PowerShell:
+
+```powershell
+$env:NODE_ENV="production"
+npm run start:prod --prefix backend
+```
+
+Abre [http://localhost:3000](http://localhost:3000).
+
+---
+
+## 🌐 Despliegue en Render
+
+El repositorio incluye `render.yaml` para desplegar **API + frontend** en un solo servicio.
+
+1. Repositorio: [https://github.com/MarcoEC2414/Predicciones](https://github.com/MarcoEC2414/Predicciones)
+2. En [Render](https://render.com) → **New** → **Blueprint** → conecta el repo.
+3. Render detectará `render.yaml`, construirá el proyecto y publicará la URL pública.
+
+Variables opcionales:
+
+| Variable | Uso |
+|----------|-----|
+| `FRONTEND_URL` | Orígenes CORS separados por coma si el frontend está en otro dominio |
+| `VITE_API_URL` | Solo si el frontend se compila aparte apuntando al backend |
+
+Alternativa Docker:
+
+```bash
+docker build -t predicciones .
+docker run -p 3000:3000 -e NODE_ENV=production predicciones
+```
+
+---
+
+## 📊 Dataset de Prueba
+
+Se incluye `datos_pedido.csv` en la raíz con 50 registros realistas.
+
+**Variables de entrada:** DistanciaKm, CantidadCajas, Peso (Kg), Tipo Vehiculo, tiempos operativos, TipoProducto, Zona, DiaSemana, HoraPedido, ClienteRecurrente.
+
+**Variable objetivo:** `TiempoEntregaHoras`.

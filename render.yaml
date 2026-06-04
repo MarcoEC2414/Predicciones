@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: predicciones
+    runtime: node
+    plan: free
+    buildCommand: npm install && npm install --prefix frontend && npm install --prefix backend && npm run build
+    startCommand: npm run start:prod --prefix backend
+    envVars:
+      - key: NODE_ENV
+        value: production
